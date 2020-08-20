@@ -50,6 +50,7 @@
    
        - name: Delete app.
          command: pm2 delete chat-app
+         ignore_errors: yes
          
          
          
