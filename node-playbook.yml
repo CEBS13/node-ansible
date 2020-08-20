@@ -2,7 +2,6 @@
     - name : "Node app"
       hosts: localhost
       connection: local
-      become_user: ubuntu
       become_method: sudo
       become: yes
       
@@ -63,6 +62,7 @@
          
        - name: Startup script.
          command: "env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu"
+
          
        - name: Save node app
          command: pm2 save 
