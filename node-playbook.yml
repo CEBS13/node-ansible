@@ -58,7 +58,7 @@
          
    
        - name: Delete app.
-         command: pm2 delete chat-app
+         command: pm2 delete chat-app pm2_home=/home/ubuntu/.pm2
          ignore_errors: yes
          become: yes
         
@@ -66,17 +66,17 @@
          
          
        - name: Start App.
-         command: pm2 start {{homeDir}}/{{appDir}}/app.js --name chat-app
+         command: pm2 start {{homeDir}}/{{appDir}}/app.js --name chat-app pm2_home=/home/ubuntu/.pm2
          ignore_errors: yes
          become: yes
         
          
          
        - name: Startup script.
-         command: pm2 startup
+         command: pm2 startup pm2_home=/home/ubuntu/.pm2
          become: yes
          
          
        - name: Save node app
-         command: pm2 save
+         command: pm2 save pm2_home=/home/ubuntu/.pm2
          become: yes
