@@ -12,7 +12,8 @@
         appDir: app
         account: CEBS13
         repo: Chat-App-using-Socket.io	
-
+        become_method: sudo
+        become: yes
    
 
 
@@ -26,12 +27,15 @@
             - git
             - curl
            state: present
+         become_method: sudo
+         become: yes
            
          
         
        - name: Install pm2
          npm: name=pm2 global=yes production=yes
-         
+         become_method: sudo
+         become: yes
          
      
 
@@ -40,6 +44,8 @@
            repo: git://github.com/{{ account }}/{{ repo }}
            dest: "{{homeDir}}/{{ appDir }}"
          register: git_finished
+         become_method: sudo
+         become: yes
              
       
        - name: Install app depedencies
@@ -47,22 +53,31 @@
           path: "{{homeDir }}/{{ appDir }}"
          register: npm_finished
          when: git_finished.changed
+         become_method: sudo
+         become: yes
          
    
        - name: Delete app.
          command: pm2 delete chat-app
          ignore_errors: yes
+         become: false
+         become_user: ubuntu
          
          
          
        - name: Start App.
          command: pm2 start {{homeDir}}/{{appDir}}/app.js --name chat-app
          ignore_errors: yes
+         become: false
+         become_user: ubuntu
          
          
        - name: Startup script.
          command: "env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu"
-
+         become: yes
+         become_method: sudo
          
        - name: Save node app
-         command: pm2 save 
+         command: pm2 save
+         become: false
+         become_user: ubuntu 
